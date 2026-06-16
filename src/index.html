@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temple Receipt - {{RECEIPT_NUMBER}}</title>
+    <style>
+        :root {
+            --primary-saffron: #FF6F00;
+            --secondary-gold: #FFD700;
+            --text-dark: #1A1A1A;
+            --text-muted: #5C4033;
+            --bg-cream: #FFF8E1;
+            --border-style: 2px solid var(--primary-saffron);
+        }
+
+        body {
+            font-family: 'Roboto', 'Open Sans', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .receipt-container {
+            background-color: var(--bg-cream);
+            width: 100%;
+            max-width: 600px;
+            border: 8px double var(--primary-saffron);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Traditional Corner Motifs */
+        .receipt-container::before, .receipt-container::after {
+            content: '❖';
+            position: absolute;
+            color: var(--primary-saffron);
+            font-size: 24px;
+        }
+        .receipt-container::before { top: 10px; left: 10px; }
+        .receipt-container::after { top: 10px; right: 10px; }
+
+        /* 1. HEADER SECTION */
+        .header-section {
+            text-align: center;
+            border-bottom: var(--border-style);
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        .temple-name {
+            color: var(--primary-saffron);
+            font-size: 28px;
+            font-family: 'Merriweather', serif;
+            font-weight: bold;
+            margin: 0;
+        }
+        .temple-address, .contact-info {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        /* 2 & 3. METADATA & DONOR INFO */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+        .info-group { display: flex; flex-direction: column; }
+        .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; }
+        .value { font-weight: bold; }
+
+        /* 4. DONATION DETAILS */
+        .donation-details {
+            background-color: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--secondary-gold);
+            padding: 16px;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .amount-highlight {
+            font-size: 32px;
+            color: var(--primary-saffron);
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        /* 5. COMPLIANCE & TEMPLE DETAILS */
+        .compliance-section {
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px dashed var(--primary-saffron);
+            padding-top: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* 6. FOOTER SECTION */
+        .footer-section {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-dark);
+            border-top: var(--border-style);
+            padding-top: 16px;
+        }
+        .bilingual-thanks {
+            font-weight: bold;
+            color: var(--primary-saffron);
+            margin-bottom: 12px;
+        }
+        .qr-placeholder {
+            width: 64px;
+            height: 64px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        /* Interactive Buttons (Digital Only) */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: var(--primary-saffron);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Print Specific Adjustments */
+        @media print {
+            body { background-color: white; padding: 0; }
+            .receipt-container { box-shadow: none; border: 2px solid black; }
+            .action-buttons { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="receipt-container">
+
+    <div class="header-section">
+        <div style="font-size: 40px; color: var(--primary-saffron);">🕉️</div>
+        <h1 class="temple-name">Sree Veeramathi Amman Temple</h1>
+        <p class="temple-address">Velampoondi, Tamil Nadu {{PIN_CODE}}</p>
+        <p class="contact-info">Ph: {{TEMPLE_PHONE}} | Email: {{TEMPLE_EMAIL}}</p>
+        <p class="contact-info"><strong>OFFICIAL E-RECEIPT</strong></p>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-group">
+            <span class="label">Receipt Number</span>
+            <span class="value">{{RECEIPT_NUMBER}}</span>
+        </div>
+        <div class="info-group">
+            <span class="label">Date & Time</span>
+            <span class="value">{{DATE_ISSUED}}</span>
+        </div>
+        <div class="info-group">
+            <span class="label">Donor Name</span>
+            <span class="value">{{DONOR_NAME}}</span>
+        </div>
+        <div class="info-group">
+            <span class="label">Payment Method</span>
+            <span class="value">{{PAYMENT_METHOD}} {{PAYMENT_REF}}</span>
+        </div>
+        <div class="info-group">
+            <span class="label">Donor Contact</span>
+            <span class="value">{{DONOR_PHONE}} | {{DONOR_EMAIL}}</span>
+        </div>
+        <div class="info-group">
+            <span class="label">Gotra / Nakshatra</span>
+            <span class="value">{{GOTRA}} / {{NAKSHATRA}}</span>
+        </div>
+    </div>
+
+    <div class="donation-details">
+        <span class="label">Donation Purpose</span>
+        <h3 style="margin: 4px 0;">{{DONATION_PURPOSE}}</h3>
+        <p style="font-size: 12px; margin: 0;">Target Deity: {{SPECIFIC_DEITY}}</p>
+
+        <div class="amount-highlight">₹ {{AMOUNT_NUMERIC}}</div>
+        <p style="font-weight: bold; margin: 0;">Rupees {{AMOUNT_WORDS}} Only</p>
+
+        <p style="font-size: 12px; font-style: italic; margin-top: 8px;">"{{DONOR_DEDICATION}}"</p>
+    </div>
+
+    <div class="compliance-section">
+        <p><strong>Trust Reg No:</strong> {{TRUST_REG_NO}} | <strong>80G Cert:</strong> {{80G_CERT_NO}} (Valid till {{80G_VALIDITY}})</p>
+        <p><em>Donations are eligible for {{EXEMPTION_PERCENTAGE}}% tax deduction under section 80G of IT Act.</em></p>
+        <p><strong>Bank Details:</strong> {{BANK_NAME}}, A/C: {{ACCT_NO}}, IFSC: {{IFSC_CODE}}</p>
+    </div>
+
+    <div class="footer-section">
+        <div class="bilingual-thanks">
+            <p style="margin: 0;">நன்றி! தங்கள் கருணைக்கு மிக்க நன்றி!</p>
+            <p style="margin: 4px 0;">Thank you for your generous donation. May Lord Veeramathi Amman bless you abundantly.</p>
+        </div>
+
+        <div class="qr-placeholder">
+            [QR CODE]
+        </div>
+
+        <p style="margin-top: 12px;">Verify receipt at: {{TEMPLE_WEBSITE_URL}}</p>
+        <p style="font-size: 10px; color: var(--text-muted);">This is a digitally signed computer generated receipt. For discrepancies, contact support within 7 days.</p>
+        <p style="font-size: 10px;">Generated At: {{TIMESTAMP}} | Status: {{PAYMENT_STATUS}}</p>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn">Share Receipt</button>
+        <button class="btn" style="background-color: var(--text-dark);">Download 80G Cert</button>
+    </div>
+
+</div>
+
+</body>
+</html>
